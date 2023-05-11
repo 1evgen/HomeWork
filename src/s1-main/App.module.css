@@ -1,11 +1,28 @@
-.App {
-    --header_height: 60px;
-}
+    * {
+        margin: 0;
+    }
+    .App {
 
-.hw {
+    }
+    .wrapper {
+    margin-top: 60px;
 
-}
+    }
 
-.hwTitle {
+    .hwTitle {
 
-}
+    }
+
+    .hw {
+        border: 1px solid #D9D9D9;
+        padding: 24px 70px  35px 70px
+
+    }
+
+    .futer{
+        margin-top: 15px;
+    }
+
+    .Sender {
+        padding-top: 40px;
+    }
