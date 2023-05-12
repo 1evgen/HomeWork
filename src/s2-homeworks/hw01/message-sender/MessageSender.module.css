@@ -5,10 +5,10 @@
     align-content: center;
 }
 
-.textarea  {
+.textarea {
     resize: none;
     width: 700px;
-   padding: 15px;
+    padding: 15px;
     border-radius: 20px 20px 20px 20px;
     background: #F5F7FB;
     box-shadow: 0px 5px 20px rgba(29, 33, 38, 0.03), 0px 1px 2px rgba(29, 33, 38, 0.1);
@@ -16,18 +16,24 @@
 }
 
 
-
 .button {
- background: #0066CC;
- border-radius: 30px;
- padding: 10px 10px;
-
+    background: #0066CC;
+    border-radius: 30px;
+    padding: 10px 10px;
+    width: 120px;
+    height: 40px;
+    margin-left: 50px;
 }
 
 .button:hover {
+
 
 }
 
 .button:active {
 
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
 }

@@ -70,7 +70,7 @@ const HW1 = () => {
                 <MessageSender M={Message} />
                 </div>
             </div>
-            <div className={s2.futer}></div>
+            <div className={s2.footer}></div>
         </div>
             </div>
     )
