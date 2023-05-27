@@ -2,19 +2,25 @@
 }
 
 .input {
+
 }
 
 .inputWrapper {
+
 }
 
 .superInput {
+
 }
 
 .errorInput {
+
 }
 
 .errorInput:focus {
+
 }
 
 .error {
+color: #cc0000;
 }
