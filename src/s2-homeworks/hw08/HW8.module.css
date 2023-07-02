@@ -1,23 +1,56 @@
 .item {
+
+
+
 }
 
 .item:last-of-type {
+
+
+
 }
 
 .users {
+
+
+
 }
 
+
 .buttonsContainer {
+
+
+
+
 }
 
 .container {
+    border: 1px solid black;
+
+
+
 }
 
 .thead {
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    /*margin-left: 200px;*/
+
+
 }
 
+.cont  {
+
+}
+
+
 .nameCol {
+
+
+
 }
 
 .ageCol {
+
 }
+
