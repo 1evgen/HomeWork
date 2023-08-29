@@ -30,7 +30,7 @@ const HW10 = () => {
         }, 1500)
 
     }
-    console.log(isLoading)
+
 
     return (
         <div id={'hw10'}>
