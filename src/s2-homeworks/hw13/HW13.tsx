@@ -7,6 +7,7 @@ import success200 from './images/200.svg'
 import error400 from './images/400.svg'
 import error500 from './images/500.svg'
 import errorUnknown from './images/error.svg'
+import {throws} from "assert";
 
 /*
 * 1 - дописать функцию send
@@ -24,7 +25,14 @@ errorText: string,
     yourQuery: {}
 }
 
-
+type ResponseTypeSuccess = {
+    "errorText": string,
+    "info": string,
+    "yourBody": {
+        "success": boolean
+    },
+    "yourQuery": {}
+}
 
 const HW13 = () => {
     const [code, setCode] = useState('')
@@ -45,40 +53,37 @@ const HW13 = () => {
         setInfo('...loading')
 
         axios
-            .post(url, {success: x})
+            .post<ResponseTypeSuccess>(url, {success: x})
             .then((res) => {
-                setInfo('...loading')
                 setCode('Код 200!')
-                setText(res.data.info)
                 setImage(success200)
+                setText(res.data.errorText)
+                setInfo(res.data.info)
                 // дописать
             })
             .catch((error: AxiosError<ErrorResponseType >) => {
-                debugger
-                setInfo('...loading')
-                if(error.name === "AxiosError" && error.message === "Network Error"){
-                    setInfo('Error!')
-                    setText(error.message)
-                    setCode(error.name)
-                    setImage(errorUnknown)
+                console.log(error.toJSON())
+                if (error.response) {
+                    if (error.response?.status >= 500) {
+                        setCode('Ошибка 500!')
+                        setImage(error500)
+                        setText(error.response?.data.errorText)
+                        setInfo(error.response?.data.info)
+                    } else if (error.response?.status >= 400 && error.response?.status < 500) {
+                        setCode('Ошибка 400!')
+                        setImage(error400)
+                        setText(error.response?.data.errorText)
+                        setInfo(error.response?.data.info)
+                    } else if (error.name === "AxiosError" && error.message === "Network Error") {
+                            setCode('Error!')
+                            setImage(errorUnknown)
+                            setText(error.message)
+                            setInfo(error.name)
+                    } else {
+                        throw Error('some errors')
+                    }
                 }
-
-                const errorMessage = error.response?.data.info
-                const statusError = error.response?.status
-                if(error.response) {
-                   if(statusError && statusError >= 500){
-                       setCode(error.response.data.errorText)
-                       setText(errorMessage as string)
-                       setImage(error500)
-                   } else if(statusError && statusError >= 400 && statusError < 500){
-                       setCode(error.response.data.errorText)
-                       setText(errorMessage as string)
-                       setImage(error400)
-                   } else {
-                       throw Error('Some another mistake')
-                   }
-               }}).finally( ()=>
-                setInfo('')
+            }
         )
     }
 
@@ -92,7 +97,7 @@ const HW13 = () => {
                         id={'hw13-send-true'}
                         onClick={send(true)}
                         xType={'secondary'}
-                        disabled={!!info}
+                        disabled={info === '...loading'}
                         // дописать
 
                     >
@@ -102,7 +107,7 @@ const HW13 = () => {
                         id={'hw13-send-false'}
                         onClick={send(false)}
                         xType={'secondary'}
-                        disabled={!!info}
+                        disabled={info === '...loading'}
                         // дописать
 
                     >
@@ -113,7 +118,7 @@ const HW13 = () => {
                         onClick={send(undefined)}
                         xType={'secondary'}
                         // дописать
-                        disabled={!!info}
+                        disabled={info === '...loading'}
                     >
                         Send undefined
                     </SuperButton>
@@ -122,7 +127,7 @@ const HW13 = () => {
                         onClick={send(null)} // имитация запроса на не корректный адрес
                         xType={'secondary'}
                         // дописать
-                        disabled={!!info}
+                        disabled={info === '...loading'}
                     >
                         Send null
                     </SuperButton>
