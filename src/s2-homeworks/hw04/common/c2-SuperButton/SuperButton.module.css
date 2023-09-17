@@ -117,8 +117,8 @@
     height: 30px;
     left: 574px;
     top: 418px;
-
-    background: #C9E5FF;
+background-color: #cc0000;
+    /*background: #C9E5FF;*/
     border: 1px solid #0066CC;
     border-radius: 3px;
 }

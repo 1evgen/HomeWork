@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import s2 from '../../s1-main/App.module.css'
 import s from './HW13.module.css'
 import SuperButton from '../hw04/common/c2-SuperButton/SuperButton'
-import axios from 'axios'
+import axios, {Axios, AxiosError} from 'axios'
 import success200 from './images/200.svg'
 import error400 from './images/400.svg'
 import error500 from './images/500.svg'
@@ -14,6 +14,18 @@ import errorUnknown from './images/error.svg'
 * 3 - сделать стили в соответствии с дизайном
 * */
 
+
+type ErrorResponseType = {
+errorText: string,
+    info: string,
+    yourBody: {
+        success: boolean
+    },
+    yourQuery: {}
+}
+
+
+
 const HW13 = () => {
     const [code, setCode] = useState('')
     const [text, setText] = useState('')
@@ -21,6 +33,7 @@ const HW13 = () => {
     const [image, setImage] = useState('')
 
     const send = (x?: boolean | null) => () => {
+
         const url =
             x === null
                 ? 'https://xxxxxx.ccc' // имитация запроса на не корректный адрес
@@ -34,15 +47,39 @@ const HW13 = () => {
         axios
             .post(url, {success: x})
             .then((res) => {
+                setInfo('...loading')
                 setCode('Код 200!')
+                setText(res.data.info)
                 setImage(success200)
                 // дописать
-
             })
-            .catch((e) => {
-                // дописать
+            .catch((error: AxiosError<ErrorResponseType >) => {
+                debugger
+                setInfo('...loading')
+                if(error.name === "AxiosError" && error.message === "Network Error"){
+                    setInfo('Error!')
+                    setText(error.message)
+                    setCode(error.name)
+                    setImage(errorUnknown)
+                }
 
-            })
+                const errorMessage = error.response?.data.info
+                const statusError = error.response?.status
+                if(error.response) {
+                   if(statusError && statusError >= 500){
+                       setCode(error.response.data.errorText)
+                       setText(errorMessage as string)
+                       setImage(error500)
+                   } else if(statusError && statusError >= 400 && statusError < 500){
+                       setCode(error.response.data.errorText)
+                       setText(errorMessage as string)
+                       setImage(error400)
+                   } else {
+                       throw Error('Some another mistake')
+                   }
+               }}).finally( ()=>
+                setInfo('')
+        )
     }
 
     return (
@@ -55,6 +92,7 @@ const HW13 = () => {
                         id={'hw13-send-true'}
                         onClick={send(true)}
                         xType={'secondary'}
+                        disabled={!!info}
                         // дописать
 
                     >
@@ -64,6 +102,7 @@ const HW13 = () => {
                         id={'hw13-send-false'}
                         onClick={send(false)}
                         xType={'secondary'}
+                        disabled={!!info}
                         // дописать
 
                     >
@@ -74,7 +113,7 @@ const HW13 = () => {
                         onClick={send(undefined)}
                         xType={'secondary'}
                         // дописать
-
+                        disabled={!!info}
                     >
                         Send undefined
                     </SuperButton>
@@ -83,7 +122,7 @@ const HW13 = () => {
                         onClick={send(null)} // имитация запроса на не корректный адрес
                         xType={'secondary'}
                         // дописать
-
+                        disabled={!!info}
                     >
                         Send null
                     </SuperButton>

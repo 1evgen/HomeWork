@@ -9,7 +9,6 @@ type InitialStateType =  {
 type ActionType = ReturnType<typeof changeThemeId>
 
 export const themeReducer = (state = initState, action: ActionType): InitialStateType => { // fix any
-    debugger
     switch (action.type) {
         // дописать
         case "SET_THEME_ID":
