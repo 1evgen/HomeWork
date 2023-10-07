@@ -48,31 +48,44 @@ const HW15 = () => {
     const [techs, setTechs] = useState<TechType[]>([])
 
     const sendQuery = (params: any) => {
+        debugger
         setLoading(true)
         getTechs(params)
+
             .then((res) => {
                 // делает студент
-
+                if(res){
+                    setTechs(res?.data.techs)
+                    setTotalCount(res.data.totalCount)
+                }
+                setLoading(false)
                 // сохранить пришедшие данные
-
                 //
-            })
+            }).catch((error)=> {
+                axios.isAxiosError(error)
+        })
     }
 
     const onChangePagination = (newPage: number, newCount: number) => {
-        // делает студент
-
+        sendQuery({ page: newPage, count: newCount });
+        setCount(newCount);
+        setPage(newPage);
+        console.log({newPage,newCount })
         // setPage(
         // setCount(
-
         // sendQuery(
         // setSearchParams(
-
+        // делает студент
+        // setPage(newPage)
+        // setCount(newCount)
+        // setSearchParams()
         //
     }
 
     const onChangeSort = (newSort: string) => {
         // делает студент
+        sendQuery({ page: 1, count, sort: newSort });
+        setSort(newSort);
 
         // setSort(
         // setPage(1) // при сортировке сбрасывать на 1 страницу
